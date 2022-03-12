@@ -1,0 +1,41 @@
+{% extends "report/layout.html" %}
+{% load static %}
+{% block body %}  
+<h2 class="text-secondary mt-2">CA List</h2>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Sl.</th>
+			<th>Name of CA</th>
+			<th>Key Contact Person</th>
+			<th>Alternate Contact Person</th>
+			<th>Address</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for ca in cas %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ ca.name }}</td>
+				{% for contactPerson in ca.contactPersons.all %}
+					<td>
+						<p>{{ contactPerson.name }}</p>
+						<p>{{ contactPerson.designation }}</p>
+						<p>{{ contactPerson.email }}</p>
+						<p>{{ contactPerson.phone }}</p>
+					</td>
+				{% endfor %}
+				<td>
+					<pre style="font-size: 16px;">{{ ca.address }}</pre>
+					<p><a href="{{ ca.url }}" target="blank">{{ca.url}}</a></p>
+				</td>
+				</tr>
+		{% endfor %}
+	</tbody>	
+</table>
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static 'report/index.js' %}"></script>
+{% endblock %}

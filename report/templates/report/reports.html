@@ -1,0 +1,32 @@
+{% extends "report/layout.html" %}
+{% load static %}
+
+
+{% block body %}  
+  <h2 class="mt-2 text-secondary">All Reports</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Sl</th>            
+        <th>Name of CA</th>            
+        <th>Report Month</th>            
+        <th>Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ report.ca.name }}</td>
+        <td>{{ report.month }}, {{ report.year }}</td>
+        <td> <a class="btn btn-small btn-info" href="{% url 'report' report.id %}">Details</a> </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'report/index.js' %}"></script>
+{% endblock %}

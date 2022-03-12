@@ -1,0 +1,66 @@
+{% extends "report/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+<h2 class="text-secondary mt-2 mb-2">Add CA</h2>
+<form action="{% url 'AddCA' %}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="organization-name">Organization Name</label>
+    <input type="text" class="form-control" name="organization-name">
+  </div>
+  <div class="form-group">
+    <label for="organization-address">Address</label>
+    <textarea class="form-control" name="organization-address" rows="5"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="organization-website">Website</label>
+    <input type="text" class="form-control" name="organization-website">
+  </div>
+  <fieldset>
+    <legend>Key Contact Person Details</legend>
+    <div class="form-group">
+      <label for="contact-person-name">Name</label>
+      <input type="text" class="form-control" name="contact-person-name">
+    </div>
+    <div class="form-group">
+      <label for="contact-person-designation">Designation</label>
+      <input type="text" class="form-control" name="contact-person-designation">
+    </div>
+    <div class="form-group">
+      <label for="contact-person-email">Email</label>
+      <input type="text" class="form-control" name="contact-person-email">
+    </div>
+    <div class="form-group">
+      <label for="contact-person-phone">Phone</label>
+      <input type="text" class="form-control" name="contact-person-phone">
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Alternate Contact Person Details</legend>
+    <div class="form-group">
+      <label for="alternate-contact-person-name">Name</label>
+      <input type="text" class="form-control" name="alternate-contact-person-name">
+    </div>
+    <div class="form-group">
+      <label for="alternate-contact-person-designation">Designation</label>
+      <input type="text" class="form-control" name="alternate-contact-person-designation">
+    </div>
+    <div class="form-group">
+      <label for="alternate-contact-person-email">Email</label>
+      <input type="text" class="form-control" name="alternate-contact-person-email">
+    </div>
+    <div class="form-group">
+      <label for="alternate-contact-person-phone">Phone</label>
+      <input type="text" class="form-control" name="alternate-contact-person-phone">
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-primary">Add CA</button>
+</form>  
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'report/submission.js' %}"></script>
+{% endblock %}
