@@ -4,8 +4,14 @@ from django.forms import NullBooleanField
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+import json
+from django.http import JsonResponse
+
 import calendar
 from datetime import datetime
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import CA, ContactPerson, Report, Service
 # Create your views here.
@@ -20,6 +26,45 @@ def integerConversion(intString):
     return x
 
 
+def login_view(request):
+    if request.method == "POST":
+        # Attempt to sign user in
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("reports"))
+        else:
+            return render(request, "report/login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "report/login.html")
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse("reports"))
+
+
+@login_required(login_url='login')
+def change_password_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        oldPassword = data.get("oldPassword")
+        newPassword = data.get("newPassword")
+        user = request.user
+        if user.check_password(oldPassword):
+            user.set_password(newPassword)
+            user.save()
+            return JsonResponse({"message": "success"}, status=201)
+        return JsonResponse({"message": "failure"}, status=400)
+    return render(request, "report/ChangePassword.html")
+
+
+@login_required(login_url='login')
 def report(request, report_id):
     report = Report.objects.get(pk=report_id)
     return render(request, "report/report.html", {
@@ -27,6 +72,7 @@ def report(request, report_id):
     })
 
 
+@login_required(login_url='login')
 def reports(request):
     reports = Report.objects.all()
     return render(request, "report/reports.html", {
@@ -34,6 +80,7 @@ def reports(request):
     })
 
 
+@login_required(login_url='login')
 def submission(request):
     if request.method == 'POST':
         print('hello')
@@ -79,11 +126,13 @@ def submission(request):
     })
 
 
+@login_required(login_url='login')
 def CAList(request):
     cas = CA.objects.all()
     return render(request, "report/CAList.html", {"cas": cas})
 
 
+@login_required(login_url='login')
 def AddCA(request):
     if request.method == "POST":
         organizationName = request.POST['organization-name']

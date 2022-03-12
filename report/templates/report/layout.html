@@ -12,7 +12,8 @@
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <a class="navbar-brand" href="#">CATools</a>
-          <div class="mr-auto">
+          {% if  user.is_authenticated %}
+          <div class="">
             <ul class="navbar-nav">                
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'reports' %}">All Reports</a>
@@ -28,11 +29,26 @@
               </li>                
             </ul>
           </div>
-        </nav>      
+          <div class="ml-auto">
+            <ol class="breadcrumb bg-light">
+              <li class="breadcrumb-item">
+                  Welcome {{ user.username }}
+              </li>
+              <li class="breadcrumb-item">
+                  <a href="{% url 'ChangePassword' %}">Change Password</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="{% url 'logout' %}">Logout</a>
+              </li>
+          </ol>
+          </div>
+          {% endif %}          
+        </nav>
+        <hr>      
         <div class="body">
             {% block body %}
             {% endblock %}
-        </div>
+        </div>        
       </div>
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
