@@ -1,5 +1,5 @@
 from django.db import models
-import calendar
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -7,10 +7,15 @@ import calendar
 class CA(models.Model):
     name = models.CharField(max_length=50)
     address = models.TextField(max_length=300)
-    url = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.name}"
+
+
+class User(AbstractUser):
+    ca = models.ForeignKey(
+        'CA', on_delete=models.CASCADE, related_name='users', blank=True, null=True)
 
 
 class ContactPerson(models.Model):
@@ -27,6 +32,9 @@ class Report(models.Model):
     year = models.IntegerField()
     ca = models.ForeignKey(
         'CA', on_delete=models.CASCADE, related_name='reports')
+    submittedBy = models.ForeignKey(
+        'User', on_delete=models.SET_NULL, null=True)
+    submittedAt = models.DateField(auto_now=True)
     classOneCertificates = models.IntegerField(blank=True)
     classTwoCertificates = models.IntegerField(blank=True)
     classThreeCertificates = models.IntegerField(blank=True)
