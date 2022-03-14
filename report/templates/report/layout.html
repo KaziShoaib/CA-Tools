@@ -18,21 +18,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'reports' %}">All Reports</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'submission' %}">Submit Report</a>
-              </li>
+              {% if not user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'submission' %}">Submit Report</a>
+                </li>
+              {% endif %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'CAList' %}">CA List</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'AddCA' %}">Add CA</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'UserList' %}">List of Users</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'AddUser' %}">Create User</a>
-              </li>                
+              {% if user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'AddCA' %}">Add CA</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'UserList' %}">List of Users</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'AddUser' %}">Create User</a>
+                </li>
+              {% endif %}                
             </ul>
           </div>
           <div class="ml-auto">

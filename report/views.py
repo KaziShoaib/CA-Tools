@@ -10,7 +10,7 @@ import calendar
 from datetime import datetime
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.core.mail import EmailMessage
 
@@ -67,6 +67,7 @@ def change_password_view(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u: u.is_superuser)
 def AddUser(request):
     if request.method == 'POST':
         ca_id = int(request.POST['ca-name'])
@@ -94,6 +95,7 @@ def AddUser(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u: u.is_superuser)
 def UserList(request):
     users = filter(lambda u: not u.is_superuser, User.objects.all())
     return render(request, "report/UserList.html", {"users": users})
@@ -110,12 +112,15 @@ def report(request, report_id):
 @login_required(login_url='login')
 def reports(request):
     reports = Report.objects.all()
+    if request.user.ca:
+        reports = list(filter(lambda r: r.ca == request.user.ca, reports))
     return render(request, "report/reports.html", {
         "reports": reports
     })
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u: not u.is_superuser)
 def submission(request):
     if request.method == 'POST':
         # print('hello')
@@ -168,6 +173,7 @@ def CAList(request):
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u: u.is_superuser)
 def AddCA(request):
     if request.method == "POST":
         organizationName = request.POST['organization-name']
