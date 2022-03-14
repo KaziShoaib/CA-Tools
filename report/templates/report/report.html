@@ -4,6 +4,7 @@
 
 {% block body %}  
   <h2 class="mt-2 text-secondary">{{ report.month }}, {{ report.year }} Report of {{ report.ca.name }}</h2>
+  <p class="text-right">Submitted by {{ report.submittedBy.username }} at {{ report.submittedAt }}</p>
   <div id="report-table">
     <table class="table table-striped">
       <thead>

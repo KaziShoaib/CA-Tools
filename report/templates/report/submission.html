@@ -10,12 +10,15 @@
       <div class="form-group row">
         <label for="ca-name" class="col-md-4 col-form-label">Name of CA</label>
         <div class="col-md-8">
-          <select class="form-control" name="ca-name">
+          <input type="text" name="ca-name" class="form-control" value="{{ user.ca.name }}" disabled>
+          {% comment %}
+          <!-- <select class="form-control" name="ca-name">
             <option selected value="">-- Select CA --</option>
             {% for ca in cas %}
               <option value="{{ ca.id }}">{{ ca.name }}</option>
             {% endfor %}
-          </select>
+          </select> -->
+          {% endcomment %}
         </div>  
       </div>
       <div class="form-group row">

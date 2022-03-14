@@ -119,8 +119,8 @@ def reports(request):
 def submission(request):
     if request.method == 'POST':
         # print('hello')
-        ca_id = int(request.POST['ca-name'])
-        ca = CA.objects.get(pk=ca_id)
+        #ca_id = int(request.POST['ca-name'])
+        ca = request.user.ca
         month = request.POST['month-name']
         year = int(request.POST['year'])
         classOneCertificates = integerConversion(
@@ -134,7 +134,7 @@ def submission(request):
         lastExternalAuditDate = request.POST['external-audit-date']
         campaign = request.POST['campaign-activity']
         comments = request.POST['comments']
-        report = Report(ca=ca, month=month, year=year, classOneCertificates=classOneCertificates, classTwoCertificates=classTwoCertificates, classThreeCertificates=classThreeCertificates, eSigns=eSigns,
+        report = Report(ca=ca, month=month, year=year, submittedBy=request.user, classOneCertificates=classOneCertificates, classTwoCertificates=classTwoCertificates, classThreeCertificates=classThreeCertificates, eSigns=eSigns,
                         lastInternalAuditDate=lastInternalAuditDate if lastInternalAuditDate else None, lastExternalAuditDate=lastExternalAuditDate if lastExternalAuditDate else None, campaign=campaign, comments=comments)
         report.save()
 
