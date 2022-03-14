@@ -13,10 +13,13 @@
 </div>
 {% endif %}
 <form action="{% url 'AddUser' %}" method="POST">
+{% comment %}
+<form id="add-user-form">
+{% endcomment %}
   {% csrf_token %}
   <div class="form-group">
     <label for="ca-name">Name of CA</label>
-    <select class="form-control" name="ca-name">
+    <select class="form-control" name="ca-name" id="ca-name" required>
       <option selected value="">-- Select CA --</option>
       {% for ca in cas %}
         <option value="{{ ca.id }}">{{ ca.name }}</option>
@@ -25,15 +28,28 @@
   </div>
   <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" name="username" class="form-control">    
+    <input type="text" name="username" class="form-control" id="username" required>    
   </div>
   <div class="form-group">
     <label for="email">Email</label>
-    <input type="text" name="email" class="form-control">    
+    <input type="text" name="email" class="form-control" id="email" required>    
   </div>
-  <button type="submit" class="btn btn-primary">Create User</button>
+  <div class="row">
+    <div class="col">
+      <div class="btn-group">
+        <button type="submit" class="btn btn-primary" id="create-user-button">Create User</button>
+      <button class="btn btn-primary" type="button" disabled style="display: none;" id="loading-button">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Loading...
+      </button>
+      </div>
+    </div>
+  </div>
+  
 </form>
 
 {% endblock %}
 
-
+{% block script %}   
+  <script src="{% static 'report/addUser.js' %}"></script>
+{% endblock %}

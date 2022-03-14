@@ -8,15 +8,15 @@
   {% csrf_token %}
   <div class="form-group">
     <label for="organization-name">Organization Name</label>
-    <input type="text" class="form-control" name="organization-name">
+    <input type="text" class="form-control" name="organization-name" required>
   </div>
   <div class="form-group">
     <label for="organization-address">Address</label>
-    <textarea class="form-control" name="organization-address" rows="5"></textarea>
+    <textarea class="form-control" name="organization-address" rows="5" required></textarea>
   </div>
   <div class="form-group">
     <label for="organization-website">Website</label>
-    <input type="text" class="form-control" name="organization-website">
+    <input type="text" class="form-control" name="organization-website" required>
   </div>
   {% comment %}
   <!-- <fieldset>
@@ -63,7 +63,7 @@
     <label class="personnel-label">Personnel 1</label>
     <div class="form-group row service-row">
       <div class="col">
-        <input type="text" name="operations-personnel-name" class="form-control" placeholder="Name">
+        <input type="text" name="operations-personnel-name" class="form-control" placeholder="Name" required>
       </div>
       <div class="col">
         <input type="text" name="operations-personnel-designation" class="form-control" placeholder="Designation">
@@ -71,7 +71,7 @@
     </div>
     <div class="form-group row service-row">
       <div class="col">
-        <input type="text" name="operations-personnel-phone" class="form-control" placeholder="Phone">
+        <input type="text" name="operations-personnel-phone" class="form-control" placeholder="Phone" required>
       </div>
       <div class="col">
         <input type="text" name="operations-personnel-email" class="form-control" placeholder="Email">

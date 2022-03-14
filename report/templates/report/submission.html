@@ -24,7 +24,7 @@
       <div class="form-group row">
         <label for="month-and-year" class="col-md-4 col-form-label">Select Month and Year of Report</label>
         <div class="col-md-4">
-          <select class="form-control" name="month-name">
+          <select class="form-control" name="month-name" required>
             <option selected value="">--Select Month--</option>
             {% for value, name in months %}
               <option value="{{ value }}">{{ name }}</option>
@@ -32,7 +32,7 @@
           </select>
         </div>
         <div class="col-md-4">
-          <select class="form-control" name="year">
+          <select class="form-control" name="year" required>
             <option selected value="">--Select Year--</option>
             {% for year in years %}
               <option value="{{ year }}">{{ year }}</option>

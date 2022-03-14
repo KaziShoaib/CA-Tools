@@ -40,7 +40,7 @@ const handlePasswordChange = (e) => {
   const oldPassword = document.querySelector('#current-password').value
   const newPassword = document.querySelector('#new-password').value
   const retypedNewPassword = document.querySelector('#retype-new-password').value
-  if(oldPassword !== '' && newPassword !== '' && newPassword === retypedNewPassword){    
+      
     fetch('/ChangePassword', {
       method: 'POST',
       headers: { "X-CSRFToken": getCookie("csrftoken") },
@@ -59,7 +59,5 @@ const handlePasswordChange = (e) => {
       else
         launch_modal('text-danger', 'EROOR', 'incorrect old password')
     })
-  }
-  else
-    launch_modal('text-danger', 'ERROR', 'type old password, new password, retype new password')
+  
 }
