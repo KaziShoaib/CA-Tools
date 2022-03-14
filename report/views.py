@@ -1,9 +1,8 @@
-from ast import Try
-from asyncio.windows_events import NULL
-from django.forms import NullBooleanField
+import imp
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
 import json
 from django.http import JsonResponse
 
@@ -13,7 +12,10 @@ from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from .models import CA, ContactPerson, Report, Service
+from django.core.mail import EmailMessage
+
+from django.db import IntegrityError
+from .models import User, CA, ContactPerson, Report, Service
 # Create your views here.
 
 
@@ -65,6 +67,39 @@ def change_password_view(request):
 
 
 @login_required(login_url='login')
+def AddUser(request):
+    if request.method == 'POST':
+        ca_id = int(request.POST['ca-name'])
+        ca = CA.objects.get(pk=ca_id)
+        username = request.POST['username']
+        email = request.POST['email']
+        password = User.objects.make_random_password()
+        try:
+            user = User.objects.create_user(username, email, password, ca=ca)
+            user.save()
+        except IntegrityError:
+            return render(request, "report/AddUser.html", {
+                "message": "Username already taken."
+            })
+        mailSubject = 'User Account Created for CA Info Tools'
+        mailBody = f"User account has been create for username:{username}. Use {password} as password"
+        mailRecipient = user.email
+        msg = EmailMessage(mailSubject, mailBody, to=[mailRecipient])
+        print(msg.send())
+        # print(password)
+        return HttpResponseRedirect(reverse('UserList'))
+
+    cas = CA.objects.all()
+    return render(request, "report/AddUser.html", {"cas": cas})
+
+
+@login_required(login_url='login')
+def UserList(request):
+    users = filter(lambda u: not u.is_superuser, User.objects.all())
+    return render(request, "report/UserList.html", {"users": users})
+
+
+@login_required(login_url='login')
 def report(request, report_id):
     report = Report.objects.get(pk=report_id)
     return render(request, "report/report.html", {
@@ -83,7 +118,7 @@ def reports(request):
 @login_required(login_url='login')
 def submission(request):
     if request.method == 'POST':
-        print('hello')
+        # print('hello')
         ca_id = int(request.POST['ca-name'])
         ca = CA.objects.get(pk=ca_id)
         month = request.POST['month-name']

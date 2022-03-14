@@ -1,0 +1,29 @@
+{% extends "report/layout.html" %}
+{% load static %}
+{% block body %}  
+<h2 class="text-secondary mt-2">User List</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Sl</th>
+      <th>username</th>
+      <th>CA Name</th>
+      <th>email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.ca.name }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      {% empty %}
+				<tr>
+					<td colspan="4" class="text-center">No User Added Yet</td>
+				</tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

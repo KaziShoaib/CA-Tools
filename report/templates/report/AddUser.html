@@ -1,0 +1,39 @@
+{% extends "report/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+<h2 class="text-secondary mt-2 mb-2">Create User</h2>
+{% if message %}
+<div class="alert alert-danger alert-dismissible">
+  <button class="close" type="button" data-dismiss="alert">
+      <span>&times;</span>
+  </button>
+  <strong>Error</strong> {{ message }}
+</div>
+{% endif %}
+<form action="{% url 'AddUser' %}" method="POST">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="ca-name">Name of CA</label>
+    <select class="form-control" name="ca-name">
+      <option selected value="">-- Select CA --</option>
+      {% for ca in cas %}
+        <option value="{{ ca.id }}">{{ ca.name }}</option>
+      {% endfor %}
+    </select>      
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" name="username" class="form-control">    
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" name="email" class="form-control">    
+  </div>
+  <button type="submit" class="btn btn-primary">Create User</button>
+</form>
+
+{% endblock %}
+
+
