@@ -142,21 +142,33 @@ def AddCA(request):
                 url=organizationWebsite)
         ca.save()
 
-        contactPersonName = request.POST['contact-person-name']
-        contactPersonDesignation = request.POST['contact-person-designation']
-        contactPersonEmail = request.POST['contact-person-email']
-        contactPersonPhone = request.POST['contact-person-phone']
-        contactPerson = ContactPerson(name=contactPersonName, designation=contactPersonDesignation,
-                                      email=contactPersonEmail, phone=contactPersonPhone, ca=ca)
-        contactPerson.save()
+        # contactPersonName = request.POST['contact-person-name']
+        # contactPersonDesignation = request.POST['contact-person-designation']
+        # contactPersonEmail = request.POST['contact-person-email']
+        # contactPersonPhone = request.POST['contact-person-phone']
+        # contactPerson = ContactPerson(name=contactPersonName, designation=contactPersonDesignation,
+        #                               email=contactPersonEmail, phone=contactPersonPhone, ca=ca)
+        # contactPerson.save()
 
-        alternateContactPersonName = request.POST['alternate-contact-person-name']
-        alternateContactPersonDesignation = request.POST['alternate-contact-person-designation']
-        alternateContactPersonEmail = request.POST['alternate-contact-person-email']
-        alternateContactPersonPhone = request.POST['alternate-contact-person-phone']
-        alternateContactPerson = ContactPerson(name=alternateContactPersonName, designation=alternateContactPersonDesignation,
-                                               email=alternateContactPersonEmail, phone=alternateContactPersonPhone, ca=ca)
-        alternateContactPerson.save()
+        # alternateContactPersonName = request.POST['alternate-contact-person-name']
+        # alternateContactPersonDesignation = request.POST['alternate-contact-person-designation']
+        # alternateContactPersonEmail = request.POST['alternate-contact-person-email']
+        # alternateContactPersonPhone = request.POST['alternate-contact-person-phone']
+        # alternateContactPerson = ContactPerson(name=alternateContactPersonName, designation=alternateContactPersonDesignation,
+        #                                        email=alternateContactPersonEmail, phone=alternateContactPersonPhone, ca=ca)
+        # alternateContactPerson.save()
+
+        caPersonnelNames = request.POST.getlist('operations-personnel-name')
+        caPersonnelDesignations = request.POST.getlist(
+            'operations-personnel-designation')
+        caPersonnelPhoneNumbers = request.POST.getlist(
+            'operations-personnel-phone')
+        caPersonnelEmails = request.POST.getlist('operations-personnel-email')
+        for i in range(len(caPersonnelNames)):
+            if caPersonnelNames[i] == '' and caPersonnelDesignations[i] == '' and caPersonnelPhoneNumbers[i] == '' and caPersonnelEmails[i] == '':
+                continue
+            caPeronnel = ContactPerson(
+                name=caPersonnelNames[i], designation=caPersonnelDesignations[i], email=caPersonnelEmails[i], phone=caPersonnelPhoneNumbers[i], ca=ca)
+            caPeronnel.save()
         return HttpResponseRedirect(reverse("CAList"))
-
     return render(request, "report/AddCA.html")

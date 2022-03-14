@@ -18,7 +18,8 @@
     <label for="organization-website">Website</label>
     <input type="text" class="form-control" name="organization-website">
   </div>
-  <fieldset>
+  {% comment %}
+  <!-- <fieldset>
     <legend>Key Contact Person Details</legend>
     <div class="form-group">
       <label for="contact-person-name">Name</label>
@@ -55,12 +56,51 @@
       <label for="alternate-contact-person-phone">Phone</label>
       <input type="text" class="form-control" name="alternate-contact-person-phone">
     </div>
-  </fieldset>
-  <button type="submit" class="btn btn-primary">Add CA</button>
+  </fieldset> -->
+  {% endcomment %}
+  <legend>CA Operations Personnel Information</legend>
+  <div id="CA-operations-personnel-information">    
+    <label class="personnel-label">Personnel 1</label>
+    <div class="form-group row service-row">
+      <div class="col">
+        <input type="text" name="operations-personnel-name" class="form-control" placeholder="Name">
+      </div>
+      <div class="col">
+        <input type="text" name="operations-personnel-designation" class="form-control" placeholder="Designation">
+      </div>                     
+    </div>
+    <div class="form-group row service-row">
+      <div class="col">
+        <input type="text" name="operations-personnel-phone" class="form-control" placeholder="Phone">
+      </div>
+      <div class="col">
+        <input type="text" name="operations-personnel-email" class="form-control" placeholder="Email">
+      </div>                     
+    </div>
+    <hr>      
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="btn-group">
+        <button class="btn btn-success" type="button" id="add-personnel-button">
+          Add more People
+        </button>
+        <button class="btn btn-danger" type="button" id="remove-personnel-button" style="display:none">
+          Remove People
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col">
+      <button type="submit" class="btn btn-primary ml-auto">Add CA</button>
+    </div>
+  </div>
+  
 </form>  
 {% endblock %}
 
 
 {% block script %}
-    <script src="{% static 'report/submission.js' %}"></script>
+    <script src="{% static 'report/addCA.js' %}"></script>
 {% endblock %}

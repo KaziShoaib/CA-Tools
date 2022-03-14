@@ -7,9 +7,9 @@
 		<tr>
 			<th>Sl.</th>
 			<th>Name of CA</th>
-			<th>Key Contact Person</th>
-			<th>Alternate Contact Person</th>
 			<th>Address</th>
+			<th>CA Operations Personnel</th>
+			
 		</tr>
 	</thead>
 	<tbody>
@@ -17,18 +17,23 @@
 			<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>{{ ca.name }}</td>
-				{% for contactPerson in ca.contactPersons.all %}
-					<td>
-						<p>{{ contactPerson.name }}</p>
-						<p>{{ contactPerson.designation }}</p>
-						<p>{{ contactPerson.email }}</p>
-						<p>{{ contactPerson.phone }}</p>
-					</td>
-				{% endfor %}
 				<td>
 					<pre style="font-size: 16px;">{{ ca.address }}</pre>
 					<p><a href="{{ ca.url }}" target="blank">{{ca.url}}</a></p>
-				</td>
+				</td>				
+				<td>
+				{% for contactPerson in ca.contactPersons.all %}									
+					<p><u>Personnel {{ forloop.counter}}</u></p>
+					<p>{{ contactPerson.name }}</p>
+					<p>{{ contactPerson.designation }}</p>
+					<p>{{ contactPerson.email }}</p>
+					<p>{{ contactPerson.phone }}</p>									
+				{% endfor %}
+				</td>				
+			</tr>
+		{% empty %}
+				<tr>
+					<td colspan="4" class="text-center">No CA added yet</td>
 				</tr>
 		{% endfor %}
 	</tbody>	
