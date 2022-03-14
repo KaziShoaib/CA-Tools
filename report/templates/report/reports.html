@@ -2,28 +2,45 @@
 {% load static %}
 
 
-{% block body %}  
-  <h2 class="mt-2 text-secondary">All Reports</h2>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Sl</th>            
-        <th>Name of CA</th>            
-        <th>Report Month</th>            
-        <th>Detail</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for report in reports %}
-      <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ report.ca.name }}</td>
-        <td>{{ report.month }}, {{ report.year }}</td>
-        <td> <a class="btn btn-small btn-info" href="{% url 'report' report.id %}">Details</a> </td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="4" class="text-center">No reports submitted yet</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+{% block body %}
+  <header id="main-header-reports" class="py-2 bg-success text-white mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1>
+            <i class="fa fa-folder"></i> All Reports
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>  
+  
+  <section id="all-reports-table-section">
+    <div class="container">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Sl</th>            
+            <th>Name of CA</th>            
+            <th>Report Month</th>            
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ report.ca.name }}</td>
+            <td>{{ report.month }}, {{ report.year }}</td>
+            <td> 
+              <a class="btn btn-small btn-secondary" href="{% url 'report' report.id %}"><i class="fa fa-angle-double-right"></i>Details</a> 
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4" class="text-center">No reports submitted yet</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>  
 {% endblock %}

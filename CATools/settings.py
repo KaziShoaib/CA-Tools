@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+#import environ
+
+# Initialise environment variables
+# env = environ.Env()
+# environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -128,10 +134,11 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-DEFAULT_FROM_EMAIL = 'ccainfo.bd@gmail.com'
-SERVER_EMAIL = 'ccainfo.bd@gmail.com'
+# env('variable') also works with line 16-20
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ccainfo.bd@gmail.com'
-EMAIL_HOST_PASSWORD = 'Cca@2021'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.env('EMAIL_HOST_PASSWORD')

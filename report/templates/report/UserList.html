@@ -1,29 +1,45 @@
 {% extends "report/layout.html" %}
 {% load static %}
-{% block body %}  
-<h2 class="text-secondary mt-2">User List</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Sl</th>
-      <th>username</th>
-      <th>CA Name</th>
-      <th>email</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for user in users %}
-      <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.ca.name }}</td>
-        <td>{{ user.email }}</td>
-      </tr>
-      {% empty %}
-				<tr>
-					<td colspan="4" class="text-center">No User Added Yet</td>
-				</tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% block body %}
+<header id="main-header-user-list" class="py-2 bg-success text-white mb-4">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>
+					<i class="fa fa-user"></i> List of Users
+				</h1>
+			</div>
+		</div>
+	</div>
+</header>  
+
+<section id="user-list-section">
+  <div class="container">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Sl</th>
+          <th>username</th>
+          <th>CA Name</th>
+          <th>email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.ca.name }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="text-center">No User Added Yet</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
 {% endblock %}

@@ -1,41 +1,56 @@
 {% extends "report/layout.html" %}
 {% load static %}
-{% block body %}  
-<h2 class="text-secondary mt-2">CA List</h2>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Sl.</th>
-			<th>Name of CA</th>
-			<th>Address</th>
-			<th>CA Operations Personnel</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-		{% for ca in cas %}
-			<tr>
-				<td>{{ forloop.counter }}</td>
-				<td>{{ ca.name }}</td>
-				<td>
-					<pre style="font-size: 16px;">{{ ca.address }}</pre>
-					<p><a href="{{ ca.url }}" target="blank">{{ca.url}}</a></p>
-				</td>				
-				<td>
-				{% for contactPerson in ca.contactPersons.all %}									
-					<p><u>Personnel {{ forloop.counter}}</u></p>
-					<p>{{ contactPerson.name }}</p>
-					<p>{{ contactPerson.designation }}</p>
-					<p>{{ contactPerson.email }}</p>
-					<p>{{ contactPerson.phone }}</p>									
-				{% endfor %}
-				</td>				
-			</tr>
-		{% empty %}
+{% block body %}
+<header id="main-header-ca-list" class="py-2 bg-success text-white mb-4">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h1>
+					<i class="fa fa-building-o"></i> List of All CAs
+				</h1>
+			</div>
+		</div>
+	</div>
+</header>   
+
+<section id="ca-list-section">
+	<div class="container">
+		<table class="table table-striped">
+			<thead class="thead-dark">
 				<tr>
-					<td colspan="4" class="text-center">No CA added yet</td>
+					<th>Sl.</th>
+					<th>Name of CA</th>
+					<th>Address</th>
+					<th>CA Operations Personnel</th>
+					
 				</tr>
-		{% endfor %}
-	</tbody>	
-</table>
+			</thead>
+			<tbody>
+				{% for ca in cas %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ ca.name }}</td>
+						<td>
+							<pre style="font-size: 16px;">{{ ca.address }}</pre>
+							<p><a href="{{ ca.url }}" target="blank">{{ca.url}}</a></p>
+						</td>				
+						<td>
+						{% for contactPerson in ca.contactPersons.all %}									
+							<p><u>Personnel {{ forloop.counter}}</u></p>
+							<p>{{ contactPerson.name }}</p>
+							<p>{{ contactPerson.designation }}</p>
+							<p>{{ contactPerson.email }}</p>
+							<p>{{ contactPerson.phone }}</p>									
+						{% endfor %}
+						</td>				
+					</tr>
+				{% empty %}
+						<tr>
+							<td colspan="4" class="text-center">No CA added yet</td>
+						</tr>
+				{% endfor %}
+			</tbody>	
+		</table>
+	</div>
+</section>
 {% endblock %}

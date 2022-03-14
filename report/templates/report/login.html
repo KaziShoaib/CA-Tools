@@ -2,23 +2,45 @@
 {% load static %}
 
 {% block body %}
-<h2 class="mt-2 text-secondary">User Login</h2>
+<header id="main-header-login" class="py-2 bg-primary text-white mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>
+          <i class="fa fa-sign-in"></i> Log In
+        </h1>
+      </div>
+    </div>
+  </div>
+</header>
 {% if message %}
-<div class="alert alert-danger alert-dismissible">
-  <button class="close" type="button" data-dismiss="alert">
-      <span>&times;</span>
-  </button>
-  <strong>Error</strong> {{ message }}
-</div>
+<section id="login-form-error-message" class="mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="alert alert-danger alert-dismissible">
+          <button class="close" type="button" data-dismiss="alert">
+              <span>&times;</span>
+          </button>
+          <strong>Error</strong> {{ message }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endif %}
-<form action="{% url 'login' %}" method="POST">
-  {% csrf_token %}
-  <div class="form-group">
-      <input autofocus class="form-control" type="text" name="username" placeholder="Username" required>
+<section id="login-form-section">
+  <div class="container">
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+          <input autofocus class="form-control" type="text" name="username" placeholder="Username" required>
+      </div>
+      <div class="form-group">
+          <input class="form-control" type="password" name="password" placeholder="Password" required>
+      </div>
+      <input class="btn btn-primary" type="submit" value="Login">
+    </form>
   </div>
-  <div class="form-group">
-      <input class="form-control" type="password" name="password" placeholder="Password" required>
-  </div>
-  <input class="btn btn-primary" type="submit" value="Login">
-</form>
+</section>
 {% endblock %}

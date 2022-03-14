@@ -80,13 +80,13 @@ def AddUser(request):
             user.save()
         except IntegrityError:
             return render(request, "report/AddUser.html", {
-                "message": "Username already taken."
+                "message": "Username already taken.", "cas": CA.objects.all()
             })
         mailSubject = 'User Account Created for CA Info Tools'
         mailBody = f"User account has been create for username:{username}. Use {password} as password"
         mailRecipient = user.email
         msg = EmailMessage(mailSubject, mailBody, to=[mailRecipient])
-        print(msg.send())
+        print(msg.send(fail_silently=True))
         # print(password)
         return HttpResponseRedirect(reverse('UserList'))
 

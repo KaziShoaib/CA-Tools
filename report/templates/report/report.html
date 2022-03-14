@@ -2,72 +2,100 @@
 {% load static %}
 
 
-{% block body %}  
-  <h2 class="mt-2 text-secondary">{{ report.month }}, {{ report.year }} Report of {{ report.ca.name }}</h2>
-  <p class="text-right">Submitted by {{ report.submittedBy.username }} at {{ report.submittedAt }}</p>
-  <div id="report-table">
-    <table class="table table-striped">
-      <thead>
-        <tr>       
-          <th>Index</th>
-          <th>Data</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Distribution of Class I Certificates</td>
-          <td>{{ report.classOneCertificates }}</td>
-        </tr>
-        <tr>
-          <td>Distribution of Class II Certificates</td>
-          <td>{{ report.classTwoCertificates }}</td>
-        </tr>
-        <tr>
-          <td>Distribution of Class III Certificates</td>
-          <td>{{ report.classThreeCertificates }}</td>
-        </tr>
-        <tr>
-          <td>Distribution of eSign Certificates</td>
-          <td>{{ report.eSigns }}</td>
-        </tr>
-        <tr>
-          <td>Date of Last Internal Audit</td>
-          <td>{{ report.lastInternalAuditDate }}</td>
-        </tr>
-        <tr>
-          <td>Date of Last External Audit</td>
-          <td>{{ report.lastExternalAuditDate }}</td>
-        </tr>
-        <tr>
-          <td>Campaign on Electronic Signature</td>
-          <td>
-            {{ report.campaign }}
-          </td>
-        </tr>
-        <tr>
-          <td>Integration of Electronic Signature in Digital Services</td>
-          <td>
-            {% if report.services.all|length == 0 %}
-            None
-            {% else %}
-            {% for service in report.services.all %}
-            <div class="pb-2">
-              <p><u class="text-secondary">Service Name: </u>{{ service.serviceName }}</p>
-              <p><span class="text-secondary">Orginazation Name: </span>{{ service.organizationName }}</p>
-              <p><span class="text-secondary">Total Number of Electronic Signature: </span>{{ service.totalDigitalCertificates }}</p>
-            </div>
-            {% endfor %}
-            {% endif %}
-          </td>
-        </tr>
-        <tr>
-          <td>Comments</td>
-          <td>{{ report.comments }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>  
-  <button class="btn btn-info btn-block" id="generate-pdf-button">Download as PDF</button> 
+{% block body %}
+  <header id="main-header-report-detail" class="py-2 bg-success text-white mb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h1>
+            <i class="fa fa-file" aria-hidden="true"></i> {{ report.month }}, {{ report.year }} Report of {{ report.ca.name }}</i> 
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>  
+  
+  <section id="report-issuer-info-section">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-right text-primary">
+            Submitted by {{ report.submittedBy.username }} at {{ report.submittedAt }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="report-detail-table-section">
+    <div class="container">
+      <div id="report-table" class="mb-4">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>       
+              <th>Index</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Distribution of Class I Certificates</td>
+              <td>{{ report.classOneCertificates }}</td>
+            </tr>
+            <tr>
+              <td>Distribution of Class II Certificates</td>
+              <td>{{ report.classTwoCertificates }}</td>
+            </tr>
+            <tr>
+              <td>Distribution of Class III Certificates</td>
+              <td>{{ report.classThreeCertificates }}</td>
+            </tr>
+            <tr>
+              <td>Distribution of eSign Certificates</td>
+              <td>{{ report.eSigns }}</td>
+            </tr>
+            <tr>
+              <td>Date of Last Internal Audit</td>
+              <td>{{ report.lastInternalAuditDate }}</td>
+            </tr>
+            <tr>
+              <td>Date of Last External Audit</td>
+              <td>{{ report.lastExternalAuditDate }}</td>
+            </tr>
+            <tr>
+              <td>Campaign on Electronic Signature</td>
+              <td>
+                {{ report.campaign }}
+              </td>
+            </tr>
+            <tr>
+              <td>Integration of Electronic Signature in Digital Services</td>
+              <td>
+                {% if report.services.all|length == 0 %}
+                None
+                {% else %}
+                {% for service in report.services.all %}
+                <div class="pb-2">
+                  <p><u class="text-secondary">Service Name: </u>{{ service.serviceName }}</p>
+                  <p><span class="text-secondary">Orginazation Name: </span>{{ service.organizationName }}</p>
+                  <p><span class="text-secondary">Total Number of Electronic Signature: </span>{{ service.totalDigitalCertificates }}</p>
+                </div>
+                {% endfor %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>Comments</td>
+              <td>{{ report.comments }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-danger btn-block" id="generate-pdf-button">Download as PDF</button>
+      </div>
+    </div>
+  </section>  
+   
 {% endblock %}
 
 

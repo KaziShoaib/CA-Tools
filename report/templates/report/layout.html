@@ -9,58 +9,65 @@
         {% block script %}
         {% endblock %}        
     </head>
-    <body>
-      <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">CATools</a>
+    <body>      
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'reports' %}">CATools</a>
+          <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+          </button>
           {% if  user.is_authenticated %}
-          <div class="">
+          <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav">                
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <a class="nav-link" href="{% url 'reports' %}">All Reports</a>
               </li>
               {% if not user.is_superuser %}
-                <li class="nav-item">
+                <li class="nav-item px-2">
                   <a class="nav-link" href="{% url 'submission' %}">Submit Report</a>
                 </li>
               {% endif %}
-              <li class="nav-item">
+              <li class="nav-item px-2">
                 <a class="nav-link" href="{% url 'CAList' %}">CA List</a>
               </li>
               {% if user.is_superuser %}
-                <li class="nav-item">
+                <li class="nav-item px-2">
                   <a class="nav-link" href="{% url 'AddCA' %}">Add CA</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item px-2">
                   <a class="nav-link" href="{% url 'UserList' %}">List of Users</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item px-2">
                   <a class="nav-link" href="{% url 'AddUser' %}">Create User</a>
                 </li>
               {% endif %}                
             </ul>
-          </div>
-          <div class="ml-auto">
-            <ol class="breadcrumb bg-light">
-              <li class="breadcrumb-item">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a href="" class="nav-link">
                   Welcome {{ user.username }}
+                </a>
               </li>
-              <li class="breadcrumb-item">
-                  <a href="{% url 'ChangePassword' %}">Change Password</a>
+              <li class="nav-item">
+                <a href="{% url 'ChangePassword' %}" class="nav-link">
+                  Change Password
+                </a>
               </li>
-              <li class="breadcrumb-item">
-                <a href="{% url 'logout' %}">Logout</a>
+              <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link">
+                  Logout
+                </a>
               </li>
-          </ol>
-          </div>
+            </ul>
+          </div>          
           {% endif %}          
-        </nav>
-        <hr>      
-        <div class="body">
-            {% block body %}
-            {% endblock %}
-        </div>        
-      </div>
+        </div>
+      </nav>                  
+      <div class="body">
+          {% block body %}
+          {% endblock %}
+      </div>        
+      
       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
