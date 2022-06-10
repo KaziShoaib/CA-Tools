@@ -223,3 +223,22 @@ def AddCA(request):
             caPeronnel.save()
         return HttpResponseRedirect(reverse("CAList"))
     return render(request, "report/AddCA.html")
+
+
+@login_required(login_url='login')
+@user_passes_test(lambda u: u.is_superuser)
+def HardResetUserPassword(request):
+    users = User.objects.all()
+    usernames = list(map(lambda user: user.username, users))
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user.save()
+            return render(request, "report/HardResetUserPassword.html", {"successMessage": f"{password} set as password for {username}", "usernames": usernames})
+        except ObjectDoesNotExist:
+            return render(request, "report/HardResetUserPassword.html", {"errorMessage": f"{username} not found", "usernames": usernames})
+    else:
+        return render(request, "report/HardResetUserPassword.html", {"usernames": usernames})
