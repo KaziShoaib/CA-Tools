@@ -14,5 +14,5 @@ urlpatterns = [
     path("AddCA", views.AddCA, name="AddCA"),
     path("AddUser", views.AddUser, name="AddUser"),
     path("UserList", views.UserList, name="UserList"),
-    path("ForgotPassword", views.forgot_password_view, name="ForgotPassword")
+
 ]

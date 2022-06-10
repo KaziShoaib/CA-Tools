@@ -58,26 +58,6 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("reports"))
 
 
-def forgot_password_view(request):
-    if request.method == 'POST':
-        username = request.POST["username"]
-        try:
-            user = User.objects.get(username=username)
-            new_password = User.objects.make_random_password()
-            user.set_password(new_password)
-            user.save()
-            mailSubject = 'New password for CA Tools'
-            mailBody = f"Use {new_password} as password for username {username}"
-            mailRecipient = user.email
-            status = sendEmail(subject=mailSubject,
-                               body=mailBody, recipients=[mailRecipient])
-            print(status)
-            return render(request, "report/ForgotPassword.html", {"successMessage": f"new password sent to registered email of {username}"})
-        except ObjectDoesNotExist:
-            return render(request, "report/ForgotPassword.html", {"errorMessage": f"username {username} does not exist"})
-    return render(request, "report/ForgotPassword.html")
-
-
 @login_required(login_url='login')
 def change_password_view(request):
     if request.method == 'POST':
