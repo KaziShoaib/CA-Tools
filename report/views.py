@@ -13,6 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.core.mail import EmailMessage
+from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import IntegrityError
 from .models import User, CA, ContactPerson, Report, Service
@@ -26,6 +27,12 @@ def integerConversion(intString):
     except ValueError:
         pass
     return x
+
+
+def sendEmail(subject, body, recipients):
+    msg = EmailMessage(subject, body, to=recipients)
+    # return msg.send(fail_silently=True)
+    return msg.send()
 
 
 def login_view(request):
@@ -49,6 +56,26 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("reports"))
+
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        username = request.POST["username"]
+        try:
+            user = User.objects.get(username=username)
+            new_password = User.objects.make_random_password()
+            user.set_password(new_password)
+            user.save()
+            mailSubject = 'New password for CA Tools'
+            mailBody = f"Use {new_password} as password for username {username}"
+            mailRecipient = user.email
+            status = sendEmail(subject=mailSubject,
+                               body=mailBody, recipients=[mailRecipient])
+            print(status)
+            return render(request, "report/ForgotPassword.html", {"successMessage": f"new password sent to registered email of {username}"})
+        except ObjectDoesNotExist:
+            return render(request, "report/ForgotPassword.html", {"errorMessage": f"username {username} does not exist"})
+    return render(request, "report/ForgotPassword.html")
 
 
 @login_required(login_url='login')
@@ -83,10 +110,13 @@ def AddUser(request):
                 "message": "Username already taken.", "cas": CA.objects.all()
             })
         mailSubject = 'User Account Created for CA Info Tools'
-        mailBody = f"User account has been create for username:{username}. Use {password} as password"
+        mailBody = f"User account has been created for username:{username}. Use {password} as password"
         mailRecipient = user.email
-        msg = EmailMessage(mailSubject, mailBody, to=[mailRecipient])
-        print(msg.send(fail_silently=True))
+        # msg = EmailMessage(mailSubject, mailBody, to=[mailRecipient])
+        # print(msg.send(fail_silently=True))
+        status = sendEmail(subject=mailSubject, body=mailBody,
+                           recipients=[mailRecipient])
+        print(status)
         # print(password)
         return HttpResponseRedirect(reverse('UserList'))
 
